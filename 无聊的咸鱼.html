@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<title>无聊的咸鱼</title>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	</head >	
+	<body bgcolor="#000000" align="center">
+		<img src="http://cdn.binghai.site/o_1cd2e331915ji1uq8urq18gulcna.png" width="50%">
+		<h2 id="noExtension" style="display:none;color:red">检测到您未安装浏览器插件，请<a href="https://github.com/ChengOrangeJu/WebExtensionWallet" target="_blank">点击下载安装</a></h2>
+		<a href="javascript:I_am_a_Salted_Fish()">
+			<img src="http://cdn.binghai.site/o_1cd2e44uhscb2li1fhipal1eeca.png" width="50%">
+		</a>
+
+		<img src="http://cdn.binghai.site/o_1cd2e4d5i129612ds1l8qkin1m73a.png" width="50%">
+		<img src="http://cdn.binghai.site/o_1cd2e4kg4e9b1gm5uhak7nk8ma.png" width="50%">	
+		<img src="http://cdn.binghai.site/o_1cd2e4riq3331j697rc14mj2upa.png" width="50%">
+
+		<h1 style="color:red">全星云链最咸排行榜</h4>
+		<div id="rank">
+		</div>
+
+		<script >
+			document.addEventListener("DOMContentLoaded", function() {
+	            setTimeout(checkNebpay,100);
+	            setTimeout(findFish,100);
+	        });
+
+	        function checkNebpay() {
+	            console.log("check nebpay")
+	            try{
+	                var NebPay = require("nebpay");
+	            }catch(e){
+	                $("#noExtension").show();
+	            }
+	        }
+
+			function I_am_a_Salted_Fish(){
+				$.getJSON('https://wx.nanayun.cn/api?act=3c613ce484bfba1&callback=?',function(config){
+					window.postMessage({
+			            "target": "contentscript",
+			            "data":{
+			                "to" : config.contract,
+			                "value" : "0",
+			                "contract" : {
+			                    "function" : 'iAmSaltedFish',
+			                    "args" : "[]"
+			                }
+			            },
+			            "method": "neb_sendTransaction"
+			        }, "*");
+				});
+			}
+
+			function findFish(){
+				$.getJSON('https://wx.nanayun.cn/api?act=3c613ce484bfba1&callback=?',function(config){
+					var tarUrl = config.net+"/v1/user/call";
+					var transData = {"from": "n1HYFhQwgC2y2StMpTMSkoHbqSKsZEVErFk","to": config.contract,"value": "0","nonce": 0,"gasPrice": "1000000","gasLimit": "2000000","contract": {"function": "fishList","args": "[]"}};
+
+					$.ajax({
+						    type: "post", 
+						    url: tarUrl,
+						    data: JSON.stringify(transData),
+						    dataType: "json",
+						    success: function(data){ 
+						    	var list = JSON.parse(data.result.result);
+						    	makeList(list);
+						    }
+						});
+				});
+			}
+
+			function makeList(list){
+				list.sort(up);
+				var counter = 0;
+				for(var i in list){
+					counter++;
+					if(counter == 1){
+						$("#rank").append('<h2 style="color:white"> #'+counter+' '+list[i].from+' 最无聊,翻身'+list[i].num+'次</h2>');
+					}else if(counter == 2){
+						$("#rank").append('<h2 style="color:white"> #'+counter+' '+list[i].from+' 也不赖,翻身'+list[i].num+'次</h2>');
+					}else if(counter == 3){
+						$("#rank").append('<h2 style="color:white"> #'+counter+' '+list[i].from+' 成功跻身前三,翻身'+list[i].num+'次</h2>');
+					}else{
+						$("#rank").append('<h2 style="color:white"> #'+counter+' '+list[i].from+' 偷偷地翻身'+list[i].num+'次</h2>');
+					}
+				}
+			}
+
+			function up(x,y){
+		        return y.num-x.num
+		    }
+		</script>
+	</body>
+</html>
