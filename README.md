@@ -1,6 +1,6 @@
 # SaltedFish
 ## 基于区块链游戏--无聊的咸鱼 [体验地址](http://www.nanayun.cn/saltedFish.html)
-
+![](http://cdn.binghai.site/o_1cd2kittd1lud1kmo3sdgjekdta.png)
 ### 在座的各位都很无聊，不如来比一比谁更无聊吧
 ### 合约内容
 ```
